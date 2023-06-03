@@ -21,6 +21,10 @@ class passImage(pc.State):
                 file_object.write(upload_data)
             self.img.clear()
             self.img.append(file.filename)
+    
+    def remove_data(self):
+        self.img.clear()
+    
 
 
 
@@ -100,5 +104,5 @@ def index() -> pc.Component:
 
 # Add state and page to the app.
 app = pc.App(state=passImage, style=style)
-app.add_page(index)
+app.add_page(index,on_load=passImage.remove_data)
 app.compile()
