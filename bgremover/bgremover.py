@@ -2,7 +2,9 @@
 from pcconfig import config
 
 import pynecone as pc
-import rembg as rbg
+from rembg import remove
+from PIL import Image
+
 
 style = {
     "font-family": "Verdana, sans-serif",
@@ -10,6 +12,8 @@ style = {
 }
 image = ""
 class passImage(pc.State):
+    flag="true"
+    ip = ""
     img: list[str]
     name = "choose files here"
     async def handle_upload(
@@ -20,18 +24,25 @@ class passImage(pc.State):
             outfile = f".web/public/{file.filename}"
             with open(outfile, "wb") as file_object:
                 file_object.write(upload_data)
+            self.ip = outfile
             self.img.clear()
             self.img.append(file.filename)
-    
-    async def naming(
-       self, files: list[pc.UploadFile]
-    ):
-        for file in files:
-            self.name = file.filename
-  
     def remove_data(self):
-        self.img.clear()
-    
+        if self.flag=="true":
+            self.img.clear()
+        else:
+            self.img.append('output.png')
+
+    # @pc.memo
+    def convertor(self):
+        output_path = 'output.png'
+        self.flag = "false"
+        with open(self.ip, 'rb') as i:
+            with open(output_path, 'wb') as o:
+                input = i.read()
+                output = remove(input)
+                o.write(output)
+
 
 
 
@@ -96,6 +107,7 @@ def index() -> pc.Component:
                     background="#01F28D",
                     color="#0B1926",
                     margin_top="20px",
+                    on_click=passImage.convertor(),
                 ),
                 ),
             ),
