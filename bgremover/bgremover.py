@@ -2,15 +2,16 @@
 from pcconfig import config
 
 import pynecone as pc
-
+import rembg as rbg
 
 style = {
     "font-family": "Verdana, sans-serif",
     "background" : "linear-gradient(114.29deg, #0B1926 -15.11%, #020606 106.05%)"
 }
-
+image = ""
 class passImage(pc.State):
     img: list[str]
+    name = "choose files here"
     async def handle_upload(
         self, files: list[pc.UploadFile]
     ):
@@ -22,6 +23,12 @@ class passImage(pc.State):
             self.img.clear()
             self.img.append(file.filename)
     
+    async def naming(
+       self, files: list[pc.UploadFile]
+    ):
+        for file in files:
+            self.name = file.filename
+  
     def remove_data(self):
         self.img.clear()
     
@@ -45,7 +52,7 @@ def index() -> pc.Component:
             pc.vstack(
                 pc.upload(
                     pc.center(
-                        pc.text("Choose file here",color="#0B1926",font_size="15px", as_="b",),
+                        pc.text(passImage.name,color="#0B1926",font_size="15px", as_="b",),
                     ),
                     height ="69.3px",
                     width="242.31px",
@@ -94,9 +101,10 @@ def index() -> pc.Component:
             ),
             spacing="5px",
             ),
-            pc.text("Effortlessly Remove Backgrounds, Transform Images, and Unleash Your Creative Potential with", color="#E8FFF5", font_size="15px"),
-            spacing="2em",
-
+            pc.vstack(
+                pc.text("Effortlessly Remove Backgrounds, Transform Images, and Unleash Your Creative Potential with", color="#E8FFF5", font_size="15px"),
+            margin_top="250px",
+            ),
         ),
         padding_top = "30px",
     )
