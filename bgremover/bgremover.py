@@ -7,8 +7,7 @@ docs_url = "https://pynecone.io/docs/getting-started/introduction"
 filename = f"{config.app_name}/{config.app_name}.py"
 
 style = {
-    "font_family": "Comic Sans MS",
-    "font_size": "16px",
+    "font-family": "Verdana, sans-serif",
     "background" : "linear-gradient(114.29deg, #0B1926 -15.11%, #020606 106.05%)"
 }
 
@@ -21,22 +20,16 @@ class State(pc.State):
 def index() -> pc.Component:
     return pc.center(
         pc.vstack(
-            pc.heading("Welcome to Pynecone!", font_size="2em"),
-            pc.box("Get started by editing ", pc.code(filename, font_size="1em")),
-            pc.link(
-                "Check out our docs!",
-                href=docs_url,
-                border="0.1em solid",
-                padding="0.5em",
-                border_radius="0.5em",
-                _hover={
-                    "color": "rgb(107,99,246)",
-                },
+            pc.image(src="/logo.png", width="267px", height="auto"),
+            pc.text("Transform Your Images with a ", color="#E8FFF5", font_size="35px", as_="b",),
+            pc.hstack(
+                pc.text("Single  ",color="#01F28D",font_size="35px",as_="b",),
+                pc.text("Click!",color="#E8FFF5",font_size="35px",as_="b",),
+                spacing ="10px",
             ),
-            spacing="1.5em",
-            font_size="2em",
+            spacing="1em",
         ),
-        padding_top="10%",
+        padding_top = "30px",
     )
 
 
