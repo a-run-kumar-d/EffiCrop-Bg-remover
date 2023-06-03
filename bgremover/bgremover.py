@@ -27,7 +27,7 @@ def index() -> pc.Component:
                 pc.text("Click!",color="#E8FFF5",font_size="35px",as_="b",),
                 spacing ="10px",
             ),
-            spacing="1em",
+            spacing=".5em",
         ),
         padding_top = "30px",
     )
