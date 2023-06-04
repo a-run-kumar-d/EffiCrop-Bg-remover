@@ -7,7 +7,7 @@ Efficrop is a user-friendly web app that removes backgrounds from images with ea
 
 ## Team members
 
-1. ArunKumar D [https://github.com/arjunindia]
+1. ArunKumar D [https://github.com/a-run-kumar-d]
 2. B Akash [https://github.com/AkashKannan2003]
 
 ## Link to app walkthrough
