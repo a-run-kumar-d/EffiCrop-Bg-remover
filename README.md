@@ -28,7 +28,7 @@ Efficrop is a user-friendly web app that removes backgrounds from images with ea
 
 ## How to config
 ```bash
- pc init
+  pip install rembg Pillow pynecone
 ```
 
 ## How to Run
