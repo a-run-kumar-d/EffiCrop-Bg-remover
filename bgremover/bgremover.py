@@ -1,9 +1,6 @@
 """Welcome to Pynecone! This file outlines the steps to create a basic app."""
-from pcconfig import config
-
 import pynecone as pc
 from rembg import remove
-from PIL import Image
 
 
 style = {
@@ -15,6 +12,7 @@ class passImage(pc.State):
     flag="true"
     ip = ""
     img: list[str]
+    out: list[str] 
     name = "choose files here"
     async def handle_upload(
         self, files: list[pc.UploadFile]
@@ -28,21 +26,25 @@ class passImage(pc.State):
             self.img.clear()
             self.img.append(file.filename)
     def remove_data(self):
-        if self.flag=="true":
-            self.img.clear()
-        else:
-            self.img.append('output.png')
+        self.img.clear()
 
     # @pc.memo
     def convertor(self):
+        self.flag="false"
         output_path = 'output.png'
-        self.flag = "false"
         with open(self.ip, 'rb') as i:
             with open(output_path, 'wb') as o:
                 input = i.read()
                 output = remove(input)
                 o.write(output)
 
+    def reload_upload(self):
+        if self.flag=="true":
+            self.img.clear()
+        else:
+            self.flag=="true"
+            self.img.clear()
+            self.out.append("removed background")
 
 
 
@@ -108,10 +110,34 @@ def index() -> pc.Component:
                     color="#0B1926",
                     margin_top="20px",
                     on_click=passImage.convertor(),
-                ),
+                    ),
                 ),
             ),
-            spacing="5px",
+            ),
+            pc.box(
+                pc.foreach(
+                    passImage.out,
+                    lambda out: pc.vstack(
+                        pc.text(out,color="#E8FFF5",),
+                        pc.box(
+                            pc.image(
+                            src="/output.png",
+                            height="500px",
+                            width="500px",
+                            object_fit="cover",
+                            ),
+                        ),
+                        pc.button(
+                        "download",
+                        height ="69.3px",
+                        width="242.31px",
+                        background="#01F28D",
+                        color="#0B1926",
+                        margin_top="20px",
+                        # on_click=passImage.convertor(),
+                        ),
+                    ),
+                ),
             ),
             pc.vstack(
                 pc.text("Effortlessly Remove Backgrounds, Transform Images, and Unleash Your Creative Potential with", color="#E8FFF5", font_size="15px"),
@@ -124,5 +150,6 @@ def index() -> pc.Component:
 
 # Add state and page to the app.
 app = pc.App(state=passImage, style=style)
-app.add_page(index,on_load=passImage.remove_data)
+app.add_page(index,on_load=passImage.reload_upload)
+# app.add_page(index)
 app.compile()
